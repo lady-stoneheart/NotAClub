@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,7 +60,8 @@
         .sidebar-backdrop {
             position: fixed; 
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
             z-index: 1001;
             opacity: 0; pointer-events: none;
             transition: opacity 0.3s ease;
@@ -76,25 +70,39 @@
 
         .sidebar {
             position: fixed; top: 0; left: 0; bottom: 0;
-            width: 280px; background: #fff;
+            width: 240px; /* Reduced width */
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             z-index: 1002;
             transform: translateX(-100%);
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             padding: 80px 20px 20px;
-            box-shadow: 2px 0 2px rgba(0,0,0,0.1);
+            box-shadow: 2px 0 12px rgba(0,0,0,0.08);
+            display: flex; flex-direction: column; gap: 8px;
         }
         .sidebar.active { transform: translateX(0); }
 
         .menu-item {
-            display: block; width: 100%;
-            padding: 15px 20px; margin-bottom: 10px;
-            font-size: 1.2rem; font-weight: 600;
+            display: block; width: 100%; box-sizing: border-box;
+            padding: 12px 16px; 
+            font-size: 1.1rem; font-weight: 500;
             color: var(--text-muted); text-decoration: none;
             border-radius: 12px; cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
+            transform: scale(1);
         }
-        .menu-item:hover { background: #f5f5f7; color: #000; }
-        .menu-item.active-link { color: #000; background: #f0f0f0; }
+        .menu-item:hover { 
+            background: rgba(0,0,0,0.03); 
+            color: #333; 
+        }
+        .menu-item:active {
+            transform: scale(0.97);
+        }
+        .menu-item.active-link { 
+            color: #000; 
+            background: #e5e5e7; /* More distinct active state */
+            font-weight: 700;
+        }
 
 
         /* --- LAYOUT CONTAINERS --- */
@@ -209,236 +217,777 @@
         .pending .milestone-card { opacity: 0.7; }
         @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.2); opacity: 0; } }
 
+        /* --- ABOUT CARD STYLE (Extends post-card) --- */
+        .about-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            margin-bottom: 20px;
+        }
+        .about-card h3 { margin-top: 0; font-size: 1.5rem; margin-bottom: 16px; font-weight: 800; }
+        .about-card h4 { margin-bottom: 8px; font-size: 1.1rem; font-weight: 700; }
+        .about-card p { color: #333; line-height: 1.6; margin-top: 0; margin-bottom: 16px; }
+        .about-card hr { border: 0; border-top: 1px solid #f0f0f0; margin: 24px 0; }
+
+        /* CREATIVE ABOUT ELEMENTS */
+        .terminal-card {
+            background: #1a1a1a;
+            color: #4af626; /* Hacker Green */
+            font-family: "Courier New", Courier, monospace;
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        .terminal-header {
+            display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 12px;
+        }
+        .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+        .terminal-body { font-size: 0.95rem; line-height: 1.6; opacity: 0.9; }
+        .cursor { display: inline-block; width: 8px; height: 16px; background: #4af626; animation: blink 1s step-end infinite; vertical-align: middle; }
+        @keyframes blink { 50% { opacity: 0; } }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 24px;
+        }
+        .stat-box {
+            background: #fff; padding: 20px; border-radius: 16px;
+            text-align: center; border: 1px solid #eee;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            transition: transform 0.2s;
+        }
+        .stat-box:hover { transform: translateY(-2px); }
+        .stat-number { font-size: 1.8rem; font-weight: 800; color: #000; display: block; margin-bottom: 4px; }
+        .stat-label { font-size: 0.75rem; color: #86868b; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-item { 
+            padding: 12px 0; border-bottom: 1px solid #f0f0f0; 
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .feature-item:last-child { border-bottom: none; }
+        .feature-phase { 
+            font-size: 0.75rem; background: #000; color: #fff; 
+            padding: 2px 8px; border-radius: 12px; font-weight: bold;
+        }
+
+        /* --- HADITH BADGE & LIST --- */
+        .hadith-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border: 1.5px solid #000;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #000;
+        }
+        .hadith-list {
+            display: flex; flex-direction: column; gap: 20px;
+        }
+        .hadith-text-block {
+            font-size: 1.1rem;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-family: serif; /* Classic look for Hadith text */
+        }
+        
+        /* Tech Stack Code Block */
+        .code-block {
+            background: #f5f5f7; border-radius: 8px; padding: 16px;
+            font-family: monospace; font-size: 0.85rem; color: #333;
+            overflow-x: auto;
+        }
+
+
         /* --- MOBILE ADJUSTMENTS --- */
         @media (max-width: 600px) {
             h1 { font-size: 2rem; } /* Shrinks the title on mobile */
             .timeline { padding-left: 50px; }
             .dot { left: -42px; width: 20px; height: 20px; top: 26px; }
             .timeline::before { left: 18px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
+<!-- SIDEBAR NAVIGATION -->
+<div class="sidebar-backdrop" id="backdrop" onclick="toggleMenu()"></div>
+<div class="sidebar" id="sidebar">
+    <div style="margin-bottom: 40px; font-weight: 800; font-size: 1.5rem; padding-left: 12px;">Menu</div>
+    <div class="menu-item active-link" onclick="handleMenuClick('roadmap')">Roadmap</div>
+    <div class="menu-item" onclick="handleMenuClick('feed')">Updates Feed</div>
+    <div class="menu-item" onclick="handleMenuClick('hadith')">Hadith Library</div>
+    <div class="menu-item" onclick="handleMenuClick('about')">About</div>
+    <div class="menu-item" onclick="handleMenuClick('qa')">Q & A</div>
+</div>
 
-    <!-- SIDEBAR NAVIGATION -->
-    <div class="sidebar-backdrop" id="backdrop" onclick="toggleMenu()"></div>
-    <div class="sidebar" id="sidebar">
-        <div style="margin-bottom: 40px; font-weight: 800; font-size: 1.5rem;">Menu</div>
-        <div class="menu-item active-link" onclick="switchView('roadmap')">Roadmap</div>
-        <div class="menu-item" onclick="switchView('feed')">Updates Feed</div>
-    </div>
-
-    <!-- HEADER -->
-    <nav>
-        <div class="nav-content">
-            <!-- Hamburger Button -->
-            <button class="menu-btn" onclick="toggleMenu()">
-                <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-            </button>
-            
-            <div class="brand">Project BAMI</div>
-            
-            <div><!-- Empty div to balance grid --></div>
-        </div>
-    </nav>
-
-    <div class="container">
+<!-- HEADER -->
+<nav>
+    <div class="nav-content">
+        <!-- Hamburger Button -->
+        <button class="menu-btn" onclick="toggleMenu()">
+            <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
         
-        <!-- === VIEW 1: ROADMAP (Default) === -->
-        <div id="roadmap-view" class="view-section active-view">
-            <header>
-                <h1>Roadmap of BAMI</h1>
-                <p class="subtitle">Detailed Breakdown of the current progress</p>
-            </header>
+        <div class="brand">Project BAMI</div>
+        
+        <div><!-- Empty div to balance grid --></div>
+    </div>
+</nav>
 
-            <div class="timeline">
-                <!-- MILESTONE 1: COMPLETED -->
-                <div class="milestone-wrapper completed">
-                    <div class="dot">&#10003;</div>
-                    <div class="milestone-card" onclick="toggleCard(this)">
-                        <div class="card-header">
-                            <div class="header-content">
-                                <h3>Research & Scope</h3>
-                                <p class="overview">Market analysis & Requirements</p>
-                            </div>
-                            <div class="header-meta">
-                                <span class="percent-badge">0%</span>
-                                <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
+<div class="container">
+    
+    <!-- === VIEW 1: ROADMAP (Default) === -->
+    <div id="roadmap-view" class="view-section active-view">
+        <header>
+            <h1>Roadmap of BAMI</h1>
+            <p class="subtitle">Detailed Breakdown of the current progress</p>
+        </header>
+
+        <div class="timeline">
+            <!-- MILESTONE 1: COMPLETED -->
+            <div class="milestone-wrapper completed">
+                <div class="dot">&#10003;</div>
+                <div class="milestone-card" onclick="toggleCard(this)">
+                    <div class="card-header">
+                        <div class="header-content">
+                            <h3>Research & Scope</h3>
+                            <p class="overview">Market analysis & Requirements</p>
                         </div>
-                        <div class="card-expanded-content">
-                            <div class="inner-padding">
-                                <div class="description">Detailed analysis of the top 5 competitors.</div>
-                                <div class="mini-milestone-list">
-                                    <div class="mini-item checked"><div class="check-circle"></div><span>Competitor Audit</span></div>
-                                    <div class="mini-item checked"><div class="check-circle"></div><span>User Interviews</span></div>
-                                    <div class="mini-item checked"><div class="check-circle"></div><span>Define MVP Features</span></div>
-                                </div>
-                            </div>
+                        <div class="header-meta">
+                            <span class="percent-badge">0%</span>
+                            <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
                     </div>
-                </div>
-
-                <!-- MILESTONE 2: CURRENT -->
-                <div class="milestone-wrapper current">
-                    <div class="dot"></div>
-                    <div class="milestone-card" onclick="toggleCard(this)">
-                        <div class="card-header">
-                            <div class="header-content">
-                                <h3>Frontend Build</h3>
-                                <p class="overview">Developing UI Components</p>
-                            </div>
-                            <div class="header-meta">
-                                <span class="percent-badge">0%</span>
-                                <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
-                        </div>
-                        <div class="card-expanded-content">
-                            <div class="inner-padding">
-                                <div class="description">Implementing design system into React.</div>
-                                <div class="mini-milestone-list">
-                                    <div class="mini-item checked"><div class="check-circle"></div><span>Setup React Repo</span></div>
-                                    <div class="mini-item checked"><div class="check-circle"></div><span>Navigation Bar</span></div>
-                                    <div class="mini-item"><div class="check-circle"></div><span>Dashboard Widgets</span></div>
-                                    <div class="mini-item"><div class="check-circle"></div><span>User Settings Page</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- MILESTONE 3: PENDING -->
-                <div class="milestone-wrapper pending">
-                    <div class="dot"></div>
-                    <div class="milestone-card" onclick="toggleCard(this)">
-                        <div class="card-header">
-                            <div class="header-content">
-                                <h3>Public Launch</h3>
-                                <p class="overview">Go-to-market strategy</p>
-                            </div>
-                            <div class="header-meta">
-                                <span class="percent-badge">0%</span>
-                                <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
-                        </div>
-                        <div class="card-expanded-content">
-                            <div class="inner-padding">
-                                <div class="description">Final preparations for launch.</div>
-                                <div class="mini-milestone-list">
-                                    <div class="mini-item"><div class="check-circle"></div><span>Server Stress Test</span></div>
-                                    <div class="mini-item"><div class="check-circle"></div><span>Write Press Release</span></div>
-                                    <div class="mini-item"><div class="check-circle"></div><span>Product Hunt Submission</span></div>
-                                </div>
+                    <div class="card-expanded-content">
+                        <div class="inner-padding">
+                            <div class="description">Detailed analysis of the top 5 competitors.</div>
+                            <div class="mini-milestone-list">
+                                <div class="mini-item checked"><div class="check-circle"></div><span>Competitor Audit</span></div>
+                                <div class="mini-item checked"><div class="check-circle"></div><span>User Interviews</span></div>
+                                <div class="mini-item checked"><div class="check-circle"></div><span>Define MVP Features</span></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <footer>&copy; 2026 Project BAMI</footer>
-        </div>
 
-        <!-- === VIEW 2: FEED (Hidden by default) === -->
-        <div id="feed-view" class="view-section">
-            <header>
-                <h1>Updates Feed</h1>
-                <p class="subtitle">Latest news from Aymen</p>
-            </header>
-
-            <div class="feed-grid">
-                
-                <!-- POST 1 -->
-                <div class="post-card">
-                    <div class="post-avatar">
-                        <!-- UPDATED IMAGE LINK with ?raw=true -->
-                        <img src="https://github.com/lady-stoneheart/NotAClub/blob/79857e64c1a55864b91dcb5df149b95517494d3d/IMG_2136.jpeg?raw=true" alt="Profile">
-                    </div>
-                    <div class="post-content">
-                        <div class="post-header">
-                            <span class="post-name">Just Aymen</span>
-                            <span class="post-handle">@brotheraymen</span>
-                            <span class="post-date">2/13/26</span>
+            <!-- MILESTONE 2: CURRENT -->
+            <div class="milestone-wrapper current">
+                <div class="dot"></div>
+                <div class="milestone-card" onclick="toggleCard(this)">
+                    <div class="card-header">
+                        <div class="header-content">
+                            <h3>Frontend Build</h3>
+                            <p class="overview">Developing UI Components</p>
                         </div>
-                        <p class="post-text">
-                            "Charity does not decrease wealth"
-                        </p>
+                        <div class="header-meta">
+                            <span class="percent-badge">0%</span>
+                            <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                    <div class="card-expanded-content">
+                        <div class="inner-padding">
+                            <div class="description">Implementing design system into React.</div>
+                            <div class="mini-milestone-list">
+                                <div class="mini-item checked"><div class="check-circle"></div><span>Setup React Repo</span></div>
+                                <div class="mini-item checked"><div class="check-circle"></div><span>Navigation Bar</span></div>
+                                <div class="mini-item"><div class="check-circle"></div><span>Dashboard Widgets</span></div>
+                                <div class="mini-item"><div class="check-circle"></div><span>User Settings Page</span></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <!-- POST 2 -->
-                <div class="post-card">
-                    <div class="post-avatar">
-                        <img src="https://github.com/lady-stoneheart/NotAClub/blob/79857e64c1a55864b91dcb5df149b95517494d3d/IMG_2136.jpeg?raw=true" alt="Profile">
-                    </div>
-                    <div class="post-content">
-                        <div class="post-header">
-                            <span class="post-name">Just Aymen</span>
-                            <span class="post-handle">@brotheraymen</span>
-                            <span class="post-date">2/13/26</span>
-                        </div>
-                        <p class="post-text">
-                            Hello World! in the name of Allah; may this project be blessed.
-                        </p>
-                    </div>
-                </div>
-
             </div>
-            
-        </div>
 
+            <!-- MILESTONE 3: PENDING -->
+            <div class="milestone-wrapper pending">
+                <div class="dot"></div>
+                <div class="milestone-card" onclick="toggleCard(this)">
+                    <div class="card-header">
+                        <div class="header-content">
+                            <h3>Public Launch</h3>
+                            <p class="overview">Go-to-market strategy</p>
+                        </div>
+                        <div class="header-meta">
+                            <span class="percent-badge">0%</span>
+                            <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                    <div class="card-expanded-content">
+                        <div class="inner-padding">
+                            <div class="description">Final preparations for launch.</div>
+                            <div class="mini-milestone-list">
+                                <div class="mini-item"><div class="check-circle"></div><span>Server Stress Test</span></div>
+                                <div class="mini-item"><div class="check-circle"></div><span>Write Press Release</span></div>
+                                <div class="mini-item"><div class="check-circle"></div><span>Product Hunt Submission</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>&copy; 2026 Project BAMI</footer>
     </div>
 
-    <script>
-        // --- NAVIGATION LOGIC ---
-        function toggleMenu() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('backdrop').classList.toggle('active');
-        }
+    <!-- === VIEW 2: FEED === -->
+    <div id="feed-view" class="view-section">
+        <header>
+            <h1>Updates Feed</h1>
+            <p class="subtitle">Latest news from Aymen</p>
+        </header>
 
-        function switchView(viewName) {
-            // 1. Hide all views
-            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active-view'));
+        <div class="feed-grid">
             
-            // 2. Show selected view
-            const selectedId = viewName + '-view';
-            document.getElementById(selectedId).classList.add('active-view');
+            <!-- POST 1 -->
+            <div class="post-card">
+                <div class="post-avatar">
+                    <!-- UPDATED IMAGE LINK with ?raw=true -->
+                    <img src="https://github.com/lady-stoneheart/NotAClub/blob/79857e64c1a55864b91dcb5df149b95517494d3d/IMG_2136.jpeg?raw=true" alt="Profile">
+                </div>
+                <div class="post-content">
+                    <div class="post-header">
+                        <span class="post-name">Just Aymen</span>
+                        <span class="post-handle">@brotheraymen</span>
+                        <span class="post-date">2/13/26</span>
+                    </div>
+                    <p class="post-text">
+                        "Charity does not decrease wealth"
+                    </p>
+                </div>
+            </div>
+
+            <!-- POST 2 -->
+            <div class="post-card">
+                <div class="post-avatar">
+                    <img src="https://github.com/lady-stoneheart/NotAClub/blob/79857e64c1a55864b91dcb5df149b95517494d3d/IMG_2136.jpeg?raw=true" alt="Profile">
+                </div>
+                <div class="post-content">
+                    <div class="post-header">
+                        <span class="post-name">Just Aymen</span>
+                        <span class="post-handle">@brotheraymen</span>
+                        <span class="post-date">2/13/26</span>
+                    </div>
+                    <p class="post-text">
+                        Hello World! in the name of Allah; may this project be blessed.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- === VIEW 3: HADITH LIBRARY === -->
+    <div id="hadith-view" class="view-section">
+        <header>
+            <h1>Hadith Library</h1>
+            <p class="subtitle">Timeless wisdom, graded and explained.</p>
+        </header>
+
+        <div class="hadith-list">
             
-            // 3. Close menu
+            <!-- HADITH 1 -->
+            <div class="milestone-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="header-content">
+                        <h3>Actions are by Intentions</h3>
+                        <p class="overview">Bukhari & Muslim</p>
+                    </div>
+                    <div class="header-meta">
+                        <span class="hadith-badge">SAHIH</span>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+                <div class="card-expanded-content">
+                    <div class="inner-padding">
+                        <div class="hadith-text-block">
+                            "The reward of deeds depends upon the intentions and every person will get the reward according to what he has intended."
+                        </div>
+                        <div class="description" style="border-top: 1px solid #eee; padding-top: 15px;">
+                            <strong>Explanation:</strong> This is considered one of the most fundamental principles in Islam. It emphasizes that the physical action is secondary to the condition of the heart. A small deed can become great due to intention, and a great deed can become worthless due to lack of sincerity.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HADITH 2 -->
+            <div class="milestone-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="header-content">
+                        <h3>Good Character</h3>
+                        <p class="overview">Jami At-Tirmidhi</p>
+                    </div>
+                    <div class="header-meta">
+                        <span class="hadith-badge">SAHIH</span>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+                <div class="card-expanded-content">
+                    <div class="inner-padding">
+                        <div class="hadith-text-block">
+                            "The heaviest thing to be placed in the balance of a believing slave on the Day of Judgment will be good character."
+                        </div>
+                        <div class="description" style="border-top: 1px solid #eee; padding-top: 15px;">
+                            <strong>Explanation:</strong> This highlights the weight of social conduct. While ritual worship is vital, how one treats others—family, neighbors, and strangers—carries immense weight in the final accountability.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HADITH 3 -->
+            <div class="milestone-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="header-content">
+                        <h3>Leaving What Doesn't Concern You</h3>
+                        <p class="overview">Sunan Ibn Majah</p>
+                    </div>
+                    <div class="header-meta">
+                        <span class="hadith-badge">HASAN</span>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+                <div class="card-expanded-content">
+                    <div class="inner-padding">
+                        <div class="hadith-text-block">
+                            "Part of the perfection of one’s Islam is his leaving that which does not concern him."
+                        </div>
+                        <div class="description" style="border-top: 1px solid #eee; padding-top: 15px;">
+                            <strong>Explanation:</strong> A key to productivity and peace of mind. Focusing on one's own responsibilities, duties, and spiritual growth rather than interfering in the affairs of others or consuming useless information leads to spiritual excellence (Ihsan).
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <footer>&copy; 2026 Project BAMI</footer>
+    </div>
+
+    <!-- === VIEW 4: Q&A === -->
+    <div id="qa-view" class="view-section">
+        <header>
+            <h1>Q & A</h1>
+            <p class="subtitle">Common questions & direct contact</p>
+        </header>
+
+        <div class="hadith-list"> <!-- Reusing hadith-list for vertical spacing -->
+            
+            <!-- ASK QUESTION CARD -->
+            <div class="milestone-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="header-content">
+                        <h3>Ask a Question</h3>
+                        <p class="overview">Send me an email directly</p>
+                    </div>
+                    <div class="header-meta">
+                        <span class="hadith-badge">CONTACT</span>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+                <div class="card-expanded-content">
+                    <div class="inner-padding">
+                        <div class="description">
+                            <p>Have a suggestion, bug report, or just want to say hello? I try to respond to all inquiries within 48 hours.</p>
+                            <div style="margin-top: 20px; text-align: center;">
+                                <a href="mailto:tmtmcpe@gmail.com?subject=Question regarding Project BAMI" 
+                                   style="display: inline-block; background: #000; color: #fff; padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: transform 0.2s;"
+                                   onmouseover="this.style.transform='scale(1.05)'"
+                                   onmouseout="this.style.transform='scale(1)'">
+                                    Open Gmail / Mail App
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q1 -->
+            <div class="milestone-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="header-content">
+                        <h3>What does "BAMI" mean?</h3>
+                        <p class="overview">The story behind the name</p>
+                    </div>
+                    <div class="header-meta">
+                        <span class="hadith-badge">GENERAL</span>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+                <div class="card-expanded-content">
+                    <div class="inner-padding">
+                        <div class="description">
+                            <p><strong>BAMI</strong> stands for <strong>Beyond A Mere Idea</strong>.</p>
+                            <p>Too many projects die in the "idea phase." This acronym serves as a constant reminder that execution is the only thing that matters. Code over concepts.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Q2 -->
+             <div class="milestone-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="header-content">
+                        <h3>Why Vanilla JavaScript?</h3>
+                        <p class="overview">Technical decisions</p>
+                    </div>
+                    <div class="header-meta">
+                        <span class="hadith-badge">TECH</span>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+                <div class="card-expanded-content">
+                    <div class="inner-padding">
+                        <div class="description">
+                            <p>Modern web development often over-engineers simple problems. By sticking to Vanilla JS, HTML, and CSS, we ensure:</p>
+                            <ul style="padding-left: 20px; margin-top: 10px;">
+                                <li>Zero build steps</li>
+                                <li>Instant load times</li>
+                                <li>Long-term maintainability</li>
+                                <li>Easy understanding for beginners</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="milestone-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="header-content">
+                        <h3>Is this Open Source?</h3>
+                        <p class="overview">Licensing & Contribution</p>
+                    </div>
+                    <div class="header-meta">
+                        <span class="hadith-badge">LEGAL</span>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+                <div class="card-expanded-content">
+                    <div class="inner-padding">
+                        <div class="description">
+                            <p>Yes. Project BAMI is fully open source. We believe in "Building in Public." You are free to inspect the code, fork it, and learn from it.</p>
+                            <p style="margin-top: 10px; font-size: 0.9rem; color: #86868b;">License: MIT</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <footer>&copy; 2026 Project BAMI</footer>
+    </div>
+
+    <!-- === VIEW 5: ABOUT === -->
+    <div id="about-view" class="view-section">
+        <header>
+            <h1>About BAMI</h1>
+            <p class="subtitle">BAMI: Beyond A Mere Idea</p>
+        </header>
+
+        <!-- 1. CREATIVE TERMINAL VISUALIZATION -->
+        <div class="terminal-card">
+            <div class="terminal-header">
+                <div class="terminal-dot dot-red"></div>
+                <div class="terminal-dot dot-yellow"></div>
+                <div class="terminal-dot dot-green"></div>
+            </div>
+            <div class="terminal-body">
+                > bami init --verbose<br>
+                > loading modules...<br>
+                > optimization: <span style="color: #fff">MAXIMUM</span><br>
+                > distractions: <span style="color: #ff5f56">REMOVED</span><br>
+                > status: building_in_public<br>
+                > origin: necessity<br>
+                > <span class="cursor"></span>
+            </div>
+        </div>
+
+        <!-- 2. STATS GRID -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <span class="stat-number">0</span>
+                <span class="stat-label">Trackers</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Vanilla JS</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number">∞</span>
+                <span class="stat-label">Transparency</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number">2026</span>
+                <span class="stat-label">Est. Launch</span>
+            </div>
+        </div>
+
+        <!-- 3. INTERACTIVE ABOUT SECTIONS (Converted to cards) -->
+        <div class="hadith-list">
+            
+            <!-- ORIGIN STORY -->
+            <div class="milestone-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="header-content">
+                        <h3>The Origin Story</h3>
+                        <p class="overview">February 2026</p>
+                    </div>
+                    <div class="header-meta">
+                        <span class="hadith-badge">GENESIS</span>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+                <div class="card-expanded-content">
+                    <div class="inner-padding">
+                        <div class="description">
+                            <p>It started with a cluttered screen. The digital landscape had become too loud—notifications fighting for attention, algorithms deciding what we see, and complexity masquerading as progress.</p>
+                            <p>I wanted a quiet corner. Not a social network, not a club, but a signal in the noise. <strong>Project BAMI</strong> was born from a desire to strip away the non-essential. To build something that respects the user's intelligence and time.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- THE ANTI-PITCH -->
+            <div class="milestone-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="header-content">
+                        <h3>The Anti-Pitch</h3>
+                        <p class="overview">Signal vs Noise</p>
+                    </div>
+                    <div class="header-meta">
+                        <span class="hadith-badge">ETHOS</span>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+                <div class="card-expanded-content">
+                    <div class="inner-padding">
+                        <div class="description">
+                            <p style="margin-bottom: 20px;">Most modern apps are designed to keep you addicted. We designed BAMI to keep you informed.</p>
+                            <div style="background: #f9f9f9; padding: 20px; border-radius: 12px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-weight: 500;">
+                                    <span style="color: #888; text-decoration: line-through;">Algorithmic Feeds</span>
+                                    <span>Chronological Clarity</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-weight: 500;">
+                                    <span style="color: #888; text-decoration: line-through;">Data Harvesting</span>
+                                    <span>Privacy by Default</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-weight: 500;">
+                                    <span style="color: #888; text-decoration: line-through;">Framework Bloat</span>
+                                    <span>Handcrafted Code</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TECH STACK (Creative Addition) -->
+            <div class="milestone-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="header-content">
+                        <h3>System Architecture</h3>
+                        <p class="overview">Zero Bloat Philosophy</p>
+                    </div>
+                    <div class="header-meta">
+                        <span class="hadith-badge">STACK</span>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+                <div class="card-expanded-content">
+                    <div class="inner-padding">
+                        <div class="description">
+                            <div class="code-block">
+{
+  "project": "BAMI",
+  "dependencies": {},
+  "frameworks": null,
+  "build_tools": null,
+  "stack": {
+    "markup": "HTML5",
+    "style": "CSS3 (Variables)",
+    "logic": "Vanilla ES6"
+  },
+  "hosting": "GitHub Pages"
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACKNOWLEDGMENTS (New Section) -->
+            <div class="milestone-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="header-content">
+                        <h3>Acknowledgments</h3>
+                        <p class="overview">Standing on the shoulders of giants</p>
+                    </div>
+                    <div class="header-meta">
+                        <span class="hadith-badge">CREDIT</span>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+                <div class="card-expanded-content">
+                    <div class="inner-padding">
+                        <div class="description">
+                            <ul class="feature-list">
+                                <li class="feature-item">
+                                    <span><strong>The Open Source Community</strong></span>
+                                    <span class="feature-phase">CORE</span>
+                                </li>
+                                <li class="feature-item">
+                                    <span><strong>Dieter Rams</strong></span>
+                                    <span class="feature-phase">DESIGN</span>
+                                </li>
+                                <li class="feature-item">
+                                    <span><strong>Early Testers</strong></span>
+                                    <span class="feature-phase">QA</span>
+                                </li>
+                                <li class="feature-item">
+                                    <span><strong>My Family</strong></span>
+                                    <span class="feature-phase">SUPPORT</span>
+                                </li>
+                            </ul>
+                            <p style="margin-top: 20px; font-size: 0.9rem; color: #86868b; font-style: italic;">
+                                Special thanks to everyone who still believes in the beauty of the open web.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FUTURE ROADMAP -->
+            <div class="milestone-card" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="header-content">
+                        <h3>Future Iterations</h3>
+                        <p class="overview">The Horizon</p>
+                    </div>
+                    <div class="header-meta">
+                        <span class="hadith-badge">PLAN</span>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+                <div class="card-expanded-content">
+                    <div class="inner-padding">
+                        <div class="description">
+                            <p style="margin-bottom: 15px;">This is a living document. The code you see today is just the foundation.</p>
+                            <ul class="feature-list">
+                                <li class="feature-item">
+                                    <span><strong>Phase 1:</strong> The Foundation (Current)</span>
+                                    <span class="feature-phase">LIVE</span>
+                                </li>
+                                <li class="feature-item">
+                                    <span><strong>Phase 2:</strong> Community Integration</span>
+                                    <span class="feature-phase" style="background: #888">Q3 2026</span>
+                                </li>
+                                <li class="feature-item">
+                                    <span><strong>Phase 3:</strong> The Knowledge Archive</span>
+                                    <span class="feature-phase" style="background: #ccc; color: #555">2027</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="feed-grid" style="margin-top: 20px;">
+            <!-- FOUNDER -->
+            <div class="post-card">
+                <div class="post-avatar">
+                    <img src="https://github.com/lady-stoneheart/NotAClub/blob/79857e64c1a55864b91dcb5df149b95517494d3d/IMG_2136.jpeg?raw=true" alt="Founder">
+                </div>
+                <div class="post-content">
+                    <div class="post-header" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                        <span class="post-name" style="font-size: 1.2rem;">Aymen</span>
+                        <span class="post-handle" style="font-size: 1rem; color: #86868b;">Founder & Lead Developer</span>
+                    </div>
+                    <p class="post-text" style="margin-top: 12px; font-style: italic;">
+                        "My goal is to build software that feels human. Thank you for being part of this journey."
+                    </p>
+                </div>
+            </div>
+        </div>
+        <footer>&copy; 2026 Project BAMI</footer>
+    </div>
+
+</div>
+
+<script>
+    // --- NAVIGATION LOGIC ---
+    function toggleMenu() {
+        document.getElementById('sidebar').classList.toggle('active');
+        document.getElementById('backdrop').classList.toggle('active');
+    }
+
+    function switchView(viewName) {
+        // 1. Hide all views
+        document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active-view'));
+        
+        // 2. Show selected view
+        const selectedId = viewName + '-view';
+        const section = document.getElementById(selectedId);
+        if(section) section.classList.add('active-view');
+        
+        // 3. Update Menu Styling
+        document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active-link'));
+        
+        const menuItems = document.querySelectorAll('.menu-item');
+        // Index mapping: 0=Roadmap, 1=Feed, 2=Hadith, 3=About, 4=Q&A
+        if(viewName === 'roadmap') menuItems[0].classList.add('active-link');
+        if(viewName === 'feed') menuItems[1].classList.add('active-link');
+        if(viewName === 'hadith') menuItems[2].classList.add('active-link');
+        if(viewName === 'about') menuItems[3].classList.add('active-link');
+        if(viewName === 'qa') menuItems[4].classList.add('active-link');
+    }
+
+    function handleMenuClick(viewName) {
+        // 1. Switch content immediately (feels snappy)
+        switchView(viewName);
+
+        // 2. Wait 250ms before closing sidebar (allows user to see click feedback)
+        setTimeout(() => {
             toggleMenu();
-
-            // 4. Update Menu Styling (bold text for active link)
-            document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active-link'));
-            // Find the button clicked and make it active (simple logic based on text content)
-            const menuItems = document.querySelectorAll('.menu-item');
-            if(viewName === 'roadmap') menuItems[0].classList.add('active-link');
-            if(viewName === 'feed') menuItems[1].classList.add('active-link');
-        }
+        }, 250);
+    }
 
 
-        // --- ROADMAP CARD LOGIC (Unchanged) ---
-        function toggleCard(card) {
-            const allCards = document.querySelectorAll('.milestone-card');
-            allCards.forEach(c => {
-                if (c !== card) c.classList.remove('open');
-            });
-            card.classList.toggle('open');
-        }
-
-        function updateCardProgress(card) {
-            const allItems = card.querySelectorAll('.mini-item');
-            const checkedItems = card.querySelectorAll('.mini-item.checked');
-            let percent = 0;
-            if (allItems.length > 0) {
-                percent = Math.round((checkedItems.length / allItems.length) * 100);
-            }
-            const badge = card.querySelector('.percent-badge');
-            if(badge) badge.textContent = percent + "%";
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const cards = document.querySelectorAll('.milestone-card');
-            cards.forEach(card => updateCardProgress(card));
+    // --- EXPANDABLE CARD LOGIC ---
+    function toggleCard(card) {
+        // Close others
+        const allCards = document.querySelectorAll('.milestone-card');
+        allCards.forEach(c => {
+            if (c !== card) c.classList.remove('open');
         });
-    </script>
+        // Toggle current
+        card.classList.toggle('open');
+    }
 
+    function updateCardProgress(card) {
+        const allItems = card.querySelectorAll('.mini-item');
+        const checkedItems = card.querySelectorAll('.mini-item.checked');
+        let percent = 0;
+        if (allItems.length > 0) {
+            percent = Math.round((checkedItems.length / allItems.length) * 100);
+        }
+        const badge = card.querySelector('.percent-badge');
+        if(badge) badge.textContent = percent + "%";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const cards = document.querySelectorAll('.milestone-card');
+        cards.forEach(card => updateCardProgress(card));
+    });
+</script>
 </body>
 </html>

@@ -10,9 +10,9 @@
             --bg-color: #fbfbfd;       
             --card-bg: #ffffff;        
             --text-main: #000000;      
-            --text-muted: #86868b;     
+            --text-muted: #86868b;
             --line-color: #e5e5e5;     
-            --dot-size: 24px;          /* Slightly larger dots */
+            --dot-size: 24px;          
             --radius: 20px;
         }
 
@@ -26,165 +26,148 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Navbar */
+        /* Nav & Layout */
         nav {
             position: fixed;
-            top: 0;
-            width: 100%;
+            top: 0; width: 100%;
             background: rgba(251, 251, 253, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 1000;
-            height: 60px;
-            display: flex;
-            align-items: center;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            z-index: 1000; height: 60px;
+            display: flex; align-items: center;
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
-
         .nav-content {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            width: 100%; max-width: 800px; margin: 0 auto; padding: 0 20px;
+            display: flex; justify-content: space-between; align-items: center;
         }
-
         .brand { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.5px; }
-
-        /* Main Container */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 120px 20px 60px;
-        }
-
+        .container { max-width: 800px; margin: 0 auto; padding: 120px 20px 60px; }
+        
         header { text-align: center; margin-bottom: 60px; }
         h1 { font-size: 3rem; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 10px; }
         .subtitle { color: var(--text-muted); font-size: 1.2rem; }
 
-        /* Timeline Layout */
-        .timeline {
-            position: relative;
-            /* Increase padding to make room for the gap */
-            padding-left: 80px; 
-        }
-
-        /* The Vertical Line */
+        /* Timeline Structure */
+        .timeline { position: relative; padding-left: 80px; }
         .timeline::before {
-            content: '';
-            position: absolute;
-            left: 29px; /* Centered relative to the dot */
-            top: 10px;
-            bottom: 50px;
-            width: 2px;
-            background: var(--line-color);
-            z-index: 0;
+            content: ''; position: absolute; left: 29px; top: 10px; bottom: 50px;
+            width: 2px; background: var(--line-color); z-index: 0;
         }
+        .milestone-wrapper { position: relative; margin-bottom: 40px; }
 
-        .milestone-wrapper {
-            position: relative;
-            margin-bottom: 50px; /* Space between rows */
-        }
-
-        /* Base Dot Style */
+        /* Dots */
         .dot {
-            position: absolute;
-            left: -62px; /* Pull back to sit on line */
-            top: 20px; /* Vertical alignment with card */
-            width: var(--dot-size);
-            height: var(--dot-size);
-            border-radius: 50%;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: absolute; left: -62px; top: 24px;
+            width: var(--dot-size); height: var(--dot-size);
+            border-radius: 50%; z-index: 2;
+            display: flex; align-items: center; justify-content: center;
             transition: all 0.3s ease;
         }
 
-        /* The Card */
+        /* --- CARD STYLES --- */
         .milestone-card {
             background: var(--card-bg);
-            padding: 24px;
             border-radius: var(--radius);
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            cursor: pointer; position: relative; overflow: hidden;
         }
-        
         .milestone-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
 
-        .milestone-card h3 { margin: 0 0 5px 0; font-size: 1.1rem; }
-        .milestone-card p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
+        /* Header Area (Always Visible) */
+        .card-header {
+            padding: 24px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .header-content h3 { margin: 0 0 4px 0; font-size: 1.1rem; }
+        .header-content .overview { margin: 0; color: var(--text-muted); font-size: 0.9rem; }
 
-        /* --- STATUS STYLES --- */
-
-        /* 1. COMPLETED: Black Circle + White Checkmark */
-        .completed .dot {
-            background: #000;
-            color: #fff;
-            font-size: 14px;
-            font-weight: bold;
+        .header-meta {
+            display: flex; align-items: center; gap: 15px;
+        }
+        .percent-badge {
+            font-weight: 700; font-size: 0.9rem; letter-spacing: -0.5px;
+        }
+        .chevron {
+            width: 20px; height: 20px; opacity: 0.3; transition: transform 0.4s ease;
         }
 
-        /* 2. CURRENT (Active): Black Circle + White Inner Circle + Animation */
-        .current .dot {
-            background: #000;
+        /* Expanded Content */
+        .card-expanded-content {
+            max-height: 0; opacity: 0; overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+            background: #fafafa; /* Slightly different bg for inner content */
+        }
+        .inner-padding { padding: 0 24px 24px 24px; border-top: 1px solid #f0f0f0; }
+        
+        .description {
+            padding-top: 20px; margin-bottom: 20px;
+            font-size: 0.95rem; line-height: 1.6; color: #333;
+        }
+
+        /* Mini Milestones (Checklist) - READ ONLY */
+        .mini-milestone-list {
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .mini-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px; background: #fff;
+            border-radius: 12px; border: 1px solid #eee;
+            /* No pointer cursor, indicating not clickable */
+            cursor: default; 
         }
         
-        /* The White Inner Circle */
-        .current .dot::after {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: #fff;
-            border-radius: 50%;
+        /* Custom Checkbox Circle */
+        .check-circle {
+            width: 20px; height: 20px;
+            border: 2px solid #d1d1d6; border-radius: 50%;
+            flex-shrink: 0; position: relative;
         }
 
-        /* The Pulse Effect */
+        /* Checked State Logic */
+        .mini-item.checked .check-circle {
+            background: #000; border-color: #000;
+        }
+        .mini-item.checked .check-circle::after {
+            content: '✓'; color: #fff; font-size: 12px;
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .mini-item.checked span {
+            text-decoration: line-through; color: var(--text-muted);
+        }
+
+        /* Open State classes */
+        .milestone-card.open .chevron { transform: rotate(180deg); opacity: 1; }
+        .milestone-card.open .card-expanded-content { max-height: 1000px; opacity: 1; }
+
+        /* --- MAIN DOT STATUS STYLES --- */
+        /* Completed */
+        .completed .dot { background: #000; color: #fff; font-size: 14px; font-weight: bold; }
+        /* Current */
+        .current .dot { background: #000; }
+        .current .dot::after { content: ''; width: 8px; height: 8px; background: #fff; border-radius: 50%; }
         .current .dot::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 50%;
-            z-index: -1;
+            content: ''; position: absolute; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.2); border-radius: 50%; z-index: -1;
             animation: pulse 2s infinite;
         }
-
+        /* Pending */
+        .pending .dot { background: #d1d1d6; }
+        .pending .milestone-card { opacity: 0.7; }
+        
         @keyframes pulse {
             0% { transform: scale(1); opacity: 0.8; }
-            70% { transform: scale(2.2); opacity: 0; }
-            100% { transform: scale(1); opacity: 0; }
+            100% { transform: scale(2.2); opacity: 0; }
         }
 
-        /* 3. PENDING: Grey Circle */
-        .pending .dot {
-            background: #d1d1d6; /* System Grey */
-        }
-        .pending .milestone-card {
-            opacity: 0.7; /* Faded card look */
-        }
-
-
-        /* Footer */
-        footer {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            margin-top: 80px;
-        }
-
-        /* Mobile Responsive */
         @media (max-width: 600px) {
             .timeline { padding-left: 50px; }
-            .dot { left: -42px; width: 20px; height: 20px; top: 22px;}
+            .dot { left: -42px; width: 20px; height: 20px; top: 26px; }
             .timeline::before { left: 18px; }
-            .current .dot::after { width: 6px; height: 6px; }
         }
     </style>
 </head>
@@ -193,7 +176,7 @@
     <nav>
         <div class="nav-content">
             <div class="brand">Project Onyx</div>
-            <div style="font-size: 0.8rem; font-weight: 600;">Status: Ongoing</div>
+            <div style="font-size: 0.8rem; font-weight: 600;">v 2.0</div>
         </div>
     </nav>
 
@@ -201,64 +184,171 @@
         
         <header>
             <h1>Roadmap</h1>
-            <p class="subtitle">Development Timeline</p>
+            <p class="subtitle">Detailed Breakdown</p>
         </header>
 
-        <!-- The Timeline -->
         <div class="timeline">
 
-            <!-- MILESTONE 1: COMPLETED (Black with Check) -->
-            <div class="milestone-wrapper completed">
-                <div class="dot">&#10003;</div> <!-- HTML Entity for Checkmark -->
-                <div class="milestone-card">
-                    <h3>Research & Scope</h3>
-                    <p>Market analysis completed. Core features defined.</p>
-                </div>
-            </div>
-
-            <!-- MILESTONE 2: COMPLETED (Black with Check) -->
+            <!-- MILESTONE 1: COMPLETED -->
             <div class="milestone-wrapper completed">
                 <div class="dot">&#10003;</div>
-                <div class="milestone-card">
-                    <h3>Design System</h3>
-                    <p>Monochrome UI kit created and approved.</p>
+                <div class="milestone-card" onclick="toggleCard(this)">
+                    <div class="card-header">
+                        <div class="header-content">
+                            <h3>Research & Scope</h3>
+                            <p class="overview">Market analysis & Requirements</p>
+                        </div>
+                        <div class="header-meta">
+                            <span class="percent-badge">0%</span>
+                            <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                    <!-- Hidden Content -->
+                    <div class="card-expanded-content">
+                        <div class="inner-padding">
+                            <div class="description">
+                                Detailed analysis of the top 5 competitors. We identified a gap in the enterprise sector for a monochrome, minimalist dashboard tool.
+                            </div>
+                            <!-- Mini Milestones List -->
+                            <div class="mini-milestone-list">
+                                <!-- THESE ARE CHECKED -->
+                                <div class="mini-item checked">
+                                    <div class="check-circle"></div>
+                                    <span>Competitor Audit</span>
+                                </div>
+                                <div class="mini-item checked">
+                                    <div class="check-circle"></div>
+                                    <span>User Interviews (n=20)</span>
+                                </div>
+                                <div class="mini-item checked">
+                                    <div class="check-circle"></div>
+                                    <span>Define MVP Features</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- MILESTONE 3: CURRENT (Black with White Dot + Pulse) -->
+            <!-- MILESTONE 2: CURRENT (Active) -->
             <div class="milestone-wrapper current">
-                <div class="dot"></div> <!-- Empty div, CSS adds the white circle -->
-                <div class="milestone-card">
-                    <h3>Core Development</h3>
-                    <p>Building the primary architecture. Integration in progress.</p>
+                <div class="dot"></div>
+                <div class="milestone-card" onclick="toggleCard(this)">
+                    <div class="card-header">
+                        <div class="header-content">
+                            <h3>Frontend Build</h3>
+                            <p class="overview">Developing UI Components</p>
+                        </div>
+                        <div class="header-meta">
+                            <span class="percent-badge">0%</span>
+                            <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                    <div class="card-expanded-content">
+                        <div class="inner-padding">
+                            <div class="description">
+                                We are implementing the design system into React. Focusing on responsiveness and the dark/light mode toggle.
+                            </div>
+                            <div class="mini-milestone-list">
+                                <!-- 2 items DONE, 2 items PENDING -->
+                                <div class="mini-item checked">
+                                    <div class="check-circle"></div>
+                                    <span>Setup React Repo</span>
+                                </div>
+                                <div class="mini-item checked">
+                                    <div class="check-circle"></div>
+                                    <span>Navigation Bar</span>
+                                </div>
+                                <!-- No "checked" class = Not Done -->
+                                <div class="mini-item">
+                                    <div class="check-circle"></div>
+                                    <span>Dashboard Widgets</span>
+                                </div>
+                                <div class="mini-item">
+                                    <div class="check-circle"></div>
+                                    <span>User Settings Page</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- MILESTONE 4: PENDING (Grey Circle) -->
+            <!-- MILESTONE 3: PENDING -->
             <div class="milestone-wrapper pending">
                 <div class="dot"></div>
-                <div class="milestone-card">
-                    <h3>Beta Testing</h3>
-                    <p>Internal testing phase and closed beta release.</p>
-                </div>
-            </div>
-
-            <!-- MILESTONE 5: PENDING (Grey Circle) -->
-            <div class="milestone-wrapper pending">
-                <div class="dot"></div>
-                <div class="milestone-card">
-                    <h3>Public Launch</h3>
-                    <p>Official release to production servers.</p>
+                <div class="milestone-card" onclick="toggleCard(this)">
+                    <div class="card-header">
+                        <div class="header-content">
+                            <h3>Public Launch</h3>
+                            <p class="overview">Go-to-market strategy</p>
+                        </div>
+                        <div class="header-meta">
+                            <span class="percent-badge">0%</span>
+                            <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                    <div class="card-expanded-content">
+                        <div class="inner-padding">
+                            <div class="description">
+                                Final preparations for the Product Hunt launch and social media campaign.
+                            </div>
+                            <div class="mini-milestone-list">
+                                <div class="mini-item">
+                                    <div class="check-circle"></div>
+                                    <span>Server Stress Test</span>
+                                </div>
+                                <div class="mini-item">
+                                    <div class="check-circle"></div>
+                                    <span>Write Press Release</span>
+                                </div>
+                                <div class="mini-item">
+                                    <div class="check-circle"></div>
+                                    <span>Product Hunt Submission</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
         </div>
-
-        <footer>
-            &copy; 2026 Project Onyx. All rights reserved.
-        </footer>
-
+        
+        <footer>&copy; 2026 Project Onyx</footer>
     </div>
+
+    <script>
+        // 1. Toggle Card Expansion (This is the only click action)
+        function toggleCard(card) {
+            // Auto-close others
+            const allCards = document.querySelectorAll('.milestone-card');
+            allCards.forEach(c => {
+                if (c !== card) c.classList.remove('open');
+            });
+            card.classList.toggle('open');
+        }
+
+        // 2. Calculate Progress Logic
+        function updateCardProgress(card) {
+            const allItems = card.querySelectorAll('.mini-item');
+            const checkedItems = card.querySelectorAll('.mini-item.checked');
+            
+            let percent = 0;
+            if (allItems.length > 0) {
+                percent = Math.round((checkedItems.length / allItems.length) * 100);
+            }
+
+            // Find the badge and update text
+            const badge = card.querySelector('.percent-badge');
+            badge.textContent = percent + "%";
+        }
+
+        // 3. Initialize Percentages on Load
+        document.addEventListener("DOMContentLoaded", () => {
+            const cards = document.querySelectorAll('.milestone-card');
+            cards.forEach(card => updateCardProgress(card));
+        });
+    </script>
 
 </body>
 </html>

@@ -58,11 +58,16 @@
 
         /* --- SIDEBAR MENU --- */
         .sidebar-backdrop {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0;
             background: rgba(0,0,0,0.3);
             z-index: 1001;
             opacity: 0; pointer-events: none;
             transition: opacity 0.3s ease;
+            /* Changed from width:100% to inset:0 (top/left/right/bottom) to prevent overflow issues */
         }
         .sidebar-backdrop.active { opacity: 1; pointer-events: auto; }
 
@@ -340,8 +345,8 @@
                 <!-- POST 1 -->
                 <div class="post-card">
                     <div class="post-avatar">
-                        <!-- Replace src with your real image URL -->
-                        <img src="https://github.com/lady-stoneheart/NotAClub/blob/d00b0f6c4501fd3a9ed2533c99064b036dc79acd/IMG_2136.jpeg" alt="Profile">
+                        <!-- UPDATED IMAGE LINK with ?raw=true -->
+                        <img src="https://github.com/lady-stoneheart/NotAClub/blob/79857e64c1a55864b91dcb5df149b95517494d3d/IMG_2136.jpeg?raw=true" alt="Profile">
                     </div>
                     <div class="post-content">
                         <div class="post-header">

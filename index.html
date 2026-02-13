@@ -3,233 +3,330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Personal Website</title>
+    <title>Project Roadmap</title>
     <style>
-        /* --- CSS STYLES --- */
+        /* --- APPLE-STYLE CSS --- */
         :root {
-            --primary-color: #2563eb;
-            --secondary-color: #1e293b;
-            --background-color: #f8fafc;
-            --text-color: #334155;
-            --white: #ffffff;
+            --bg-color: #f5f5f7; /* Classic Apple light grey */
+            --card-bg: #ffffff;
+            --text-main: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent-color: #0071e3; /* Apple Blue */
+            --accent-glow: rgba(0, 113, 227, 0.3);
+            --success-color: #34c759;
+            --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+            --card-hover: 0 20px 40px -10px rgba(0, 0, 0, 0.12);
+            --radius: 24px;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             margin: 0;
             padding: 0;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--background-color);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Container */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        header {
-            background-color: var(--white);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
+        /* Frosted Glass Navbar */
         nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.05); /* Very faint border */
+            z-index: 1000;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-content {
+            width: 100%;
+            max-width: 980px;
+            padding: 0 20px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--secondary-color);
-            margin-left: 20px;
-            font-weight: 500;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-color);
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 100px 20px;
-            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            color: var(--secondary-color);
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: #64748b;
-            margin-bottom: 30px;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: var(--white);
-            padding: 12px 24px;
-            border-radius: 6px;
-            text-decoration: none;
-            transition: background 0.3s;
-        }
-
-        .btn:hover {
-            background-color: #1d4ed8;
-        }
-
-        /* Sections */
-        section {
-            padding: 60px 0;
-            background-color: var(--white);
-            margin: 20px 0;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        h2 {
-            color: var(--secondary-color);
-            border-bottom: 2px solid var(--primary-color);
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-
-        /* Projects Grid */
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .project-card {
-            border: 1px solid #e2e8f0;
-            padding: 20px;
-            border-radius: 8px;
-            transition: transform 0.2s;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            color: #64748b;
+            font-weight: 600;
             font-size: 0.9rem;
         }
 
-        /* Mobile Responsive */
+        .brand { color: var(--text-main); text-decoration: none; }
+        .status-pill {
+            background: #e8e8ed;
+            color: var(--text-secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 120px 20px 60px; /* Top padding clears the fixed nav */
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        p.subtitle {
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 60px;
+            font-weight: 400;
+        }
+
+        /* Progress Dashboard Card */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none; /* No outlines */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        /* Circular Progress & Stats */
+        .stat-highlight {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            line-height: 1;
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        /* The Timeline / Roadmap */
+        .timeline-section {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .milestone {
+            display: flex;
+            margin-bottom: 40px;
+            position: relative;
+            opacity: 0.4; /* Default to faded (future) */
+            transition: opacity 0.5s;
+        }
+
+        .milestone.completed { opacity: 1; }
+        .milestone.current { opacity: 1; }
+
+        .milestone:last-child { margin-bottom: 0; }
+
+        /* Timeline Line */
+        .milestone::before {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 50px;
+            bottom: -50px;
+            width: 2px;
+            background: #e8e8ed;
+            z-index: 0;
+        }
+        .milestone:last-child::before { display: none; }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
+            border-radius: 50%;
+            background: #f5f5f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 25px;
+            z-index: 1;
+            font-weight: bold;
+            color: var(--text-secondary);
+        }
+
+        /* Current Active State Styling */
+        .milestone.current .icon-box {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .milestone.completed .icon-box {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .milestone-content h3 {
+            margin: 0 0 8px;
+            font-size: 1.25rem;
+        }
+
+        .milestone-content p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Simple Footer */
+        footer {
+            text-align: center;
+            padding: 60px 0;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        /* Mobile Adjustments */
         @media (max-width: 600px) {
-            .hero h1 { font-size: 2rem; }
-            nav { flex-direction: column; gap: 10px; }
-            .nav-links a { margin: 0 10px; }
+            h1 { font-size: 2.5rem; }
+            .container { padding-top: 100px; }
+            .card { padding: 25px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation -->
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">MyName</div>
-                <div class="nav-links">
-                    <a href="#about">About</a>
-                    <a href="#projects">Projects</a>
-                    <a href="#contact">Contact</a>
-                </div>
-            </nav>
+    <nav>
+        <div class="nav-content">
+            <a href="#" class="brand">Project Vision</a>
+            <span class="status-pill">Beta Phase</span>
         </div>
-    </header>
+    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1 id="greeting">Hello, I'm [Your Name]</h1>
-            <p>Developer | Designer | Creator</p>
-            <a href="#contact" class="btn">Get in Touch</a>
-        </div>
-    </section>
-
-    <!-- About Section -->
     <div class="container">
-        <section id="about">
-            <h2>About Me</h2>
-            <p>Welcome to my personal website hosted on GitHub Pages! I am passionate about technology and design. This is a fully responsive template that you can edit to tell your own story.</p>
-            <p>You can change this text in the HTML file to describe your background, skills, and hobbies.</p>
-        </section>
+        <!-- Hero Section -->
+        <h1>Project Apollo.</h1>
+        <p class="subtitle">Redefining how we handle data. <br>Simple. Fast. Secure.</p>
 
-        <!-- Projects Section -->
-        <section id="projects">
-            <h2>My Projects</h2>
-            <div class="project-grid">
-                <div class="project-card">
-                    <h3>Project 1</h3>
-                    <p>Description of your first awesome project goes here.</p>
-                </div>
-                <div class="project-card">
-                    <h3>Project 2</h3>
-                    <p>Description of your second awesome project goes here.</p>
-                </div>
-                <div class="project-card">
-                    <h3>Project 3</h3>
-                    <p>Description of your third awesome project goes here.</p>
+        <!-- Stats Grid -->
+        <div class="dashboard-grid">
+            <!-- Card 1: Overall Completion -->
+            <div class="card">
+                <h2>Total Progress</h2>
+                <div class="stat-highlight" id="progress-percent">0%</div>
+                <div class="stat-label">Development Complete</div>
+            </div>
+
+            <!-- Card 2: Next Deadline -->
+            <div class="card">
+                <h2>Next Release</h2>
+                <div style="font-size: 2rem; font-weight: 600;">v.2.0 Beta</div>
+                <div class="stat-label">Expected: October 15th</div>
+                <div style="margin-top: 15px; height: 6px; background: #e8e8ed; border-radius: 3px; overflow: hidden;">
+                    <div style="width: 75%; height: 100%; background: var(--accent-color); border-radius: 3px;"></div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Contact Section -->
-        <section id="contact">
-            <h2>Contact</h2>
-            <p>Feel free to reach out to me for collaborations or just a friendly hello!</p>
-            <p>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
-            <p>GitHub: <a href="https://github.com/yourusername">github.com/yourusername</a></p>
-        </section>
+        <!-- Roadmap / Timeline Section -->
+        <div class="timeline-section">
+            <h2 style="margin-bottom: 40px; border-bottom: 1px solid #f5f5f7; padding-bottom: 20px;">Development Roadmap</h2>
+
+            <!-- Item 1: Completed -->
+            <div class="milestone completed">
+                <div class="icon-box">✓</div>
+                <div class="milestone-content">
+                    <h3>Concept & Design</h3>
+                    <p>Initial wireframes, UI/UX design system approved, and core technology stack selected.</p>
+                </div>
+            </div>
+
+            <!-- Item 2: Completed -->
+            <div class="milestone completed">
+                <div class="icon-box">✓</div>
+                <div class="milestone-content">
+                    <h3>Backend Infrastructure</h3>
+                    <p>Database setup, API endpoints created, and server authentication protocols finalized.</p>
+                </div>
+            </div>
+
+            <!-- Item 3: Current (Active) -->
+            <div class="milestone current">
+                <div class="icon-box">3</div>
+                <div class="milestone-content">
+                    <h3>Frontend Development</h3>
+                    <p>Building the user interface components. Currently integrating the dashboard with the API.</p>
+                </div>
+            </div>
+
+            <!-- Item 4: Future -->
+            <div class="milestone">
+                <div class="icon-box">4</div>
+                <div class="milestone-content">
+                    <h3>User Testing</h3>
+                    <p>Closed beta release for 100 users. Bug fixing and performance optimization.</p>
+                </div>
+            </div>
+
+            <!-- Item 5: Future -->
+            <div class="milestone">
+                <div class="icon-box">5</div>
+                <div class="milestone-content">
+                    <h3>Global Launch</h3>
+                    <p>Public release to app stores and marketing campaign kickoff.</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Footer -->
     <footer>
-        <p>&copy; <span id="year"></span> BAMI. All rights reserved.</p>
+        <p>Designed in 2026. Hosted on GitHub Pages.</p>
     </footer>
 
     <script>
-        // --- JAVASCRIPT ---
-        
-        // 1. Auto-update the year in the footer
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // 2. Simple greeting based on time of day
-        const hour = new Date().getHours();
-        const greetingElement = document.getElementById('greeting');
-        let greetingText = "Hello";
-
-        if (hour < 12) greetingText = "Good Morning";
-        else if (hour < 18) greetingText = "Good Afternoon";
-        else greetingText = "Good Evening";
-
-        // Keeps your name, changes the greeting
-        greetingElement.textContent = greetingText + ", " + greetingElement.textContent.split(', ')[1];
+        // Smooth Animation for the Percentage Number
+        document.addEventListener("DOMContentLoaded", () => {
+            const targetPercent = 68; // EDIT THIS NUMBER to change the percentage
+            const element = document.getElementById("progress-percent");
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                if(current >= targetPercent) {
+                    clearInterval(timer);
+                    element.innerHTML = targetPercent + "%";
+                } else {
+                    current++;
+                    element.innerHTML = current + "%";
+                }
+            }, 20); // Speed of animation
+        });
     </script>
+
 </body>
 </html>

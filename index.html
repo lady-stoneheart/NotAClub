@@ -1,3 +1,7 @@
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,15 +63,11 @@
         /* --- SIDEBAR MENU --- */
         .sidebar-backdrop {
             position: fixed; 
-            top: 0; 
-            left: 0; 
-            right: 0; 
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.3);
             z-index: 1001;
             opacity: 0; pointer-events: none;
             transition: opacity 0.3s ease;
-            /* Changed from width:100% to inset:0 (top/left/right/bottom) to prevent overflow issues */
         }
         .sidebar-backdrop.active { opacity: 1; pointer-events: auto; }
 
@@ -206,7 +206,9 @@
         .pending .milestone-card { opacity: 0.7; }
         @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.2); opacity: 0; } }
 
+        /* --- MOBILE ADJUSTMENTS --- */
         @media (max-width: 600px) {
+            h1 { font-size: 2rem; } /* Shrinks the title on mobile */
             .timeline { padding-left: 50px; }
             .dot { left: -42px; width: 20px; height: 20px; top: 26px; }
             .timeline::before { left: 18px; }
@@ -243,7 +245,7 @@
         <!-- === VIEW 1: ROADMAP (Default) === -->
         <div id="roadmap-view" class="view-section active-view">
             <header>
-                <h1>   Roadmap of BAMI   </h1>
+                <h1>Roadmap of BAMI</h1>
                 <p class="subtitle">Detailed Breakdown of the current progress</p>
             </header>
 
@@ -352,11 +354,10 @@
                         <div class="post-header">
                             <span class="post-name">Just Aymen</span>
                             <span class="post-handle">@brotheraymen</span>
-                            <span class="post-date">Sha'ban 25, 1447AH</span>
+                            <span class="post-date">2h</span>
                         </div>
                         <p class="post-text">
-                   
-While I was walking with the Prophet (ﷺ) at the Hurra of Medina in the evening, the mountain of Uhud appeared before us. The Prophet (ﷺ) said, "O Abu Dhar! I would not like to have gold equal to Uhud (mountain) for me, unless nothing of it, not even a single Dinar remains of it with me, for more than one day or three days, except that single Dinar which I will keep for repaying debts. I will spend all of it (the whole amount) among Allah's slaves like this and like this and like this." The Prophet (ﷺ) pointed out with his hand to illustrate it and then said, "O Abu Dhar!" I replied, "Labbaik wa Sa`daik, O Allah's Messenger (ﷺ)!" He said, "Those who have much wealth (in this world) will be the least rewarded (in the Hereafter) except those who do like this and like this (i.e., spend their money in charity)."
+                            Just finished the navigation bar logic for Project BAMI. The monochrome aesthetic is looking cleaner than I expected! 🚀 #coding #webdev
                         </p>
                     </div>
                 </div>
@@ -364,22 +365,22 @@ While I was walking with the Prophet (ﷺ) at the Hurra of Medina in the evening
                 <!-- POST 2 -->
                 <div class="post-card">
                     <div class="post-avatar">
-                        <img src="https://github.com/lady-stoneheart/NotAClub/blob/79857e64c1a55864b91dcb5df149b95517494d3d/IMG_2136.jpeg?raw=true" alt="Profile">
+                        <img src="https://ui-avatars.com/api/?name=Just+Aymen&background=000&color=fff" alt="Profile">
                     </div>
                     <div class="post-content">
                         <div class="post-header">
                             <span class="post-name">Just Aymen</span>
                             <span class="post-handle">@brotheraymen</span>
-                            <span class="post-date">Sha'ban 25, 1447AH</span>
+                            <span class="post-date">1d</span>
                         </div>
                         <p class="post-text">
-                            Ohio Sekai!
+                            We are officially moving to Beta phase soon. Check the roadmap for details. The team is working hard on the backend integration.
                         </p>
                     </div>
                 </div>
 
             </div>
-
+            <footer>&copy; 2026 Project BAMI</footer>
         </div>
 
     </div>
